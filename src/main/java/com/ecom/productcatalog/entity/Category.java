@@ -1,4 +1,4 @@
-package com.ecom.productcatalog.model;
+package com.ecom.productcatalog.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

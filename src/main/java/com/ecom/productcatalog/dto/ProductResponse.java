@@ -1,7 +1,7 @@
 package com.ecom.productcatalog.dto;
 
-import com.ecom.productcatalog.model.Category;
-import com.ecom.productcatalog.model.Product;
+import com.ecom.productcatalog.entity.Category;
+import com.ecom.productcatalog.entity.Product;
 
 import java.util.List;
 

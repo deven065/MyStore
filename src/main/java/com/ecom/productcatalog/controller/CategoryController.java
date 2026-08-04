@@ -1,6 +1,6 @@
 package com.ecom.productcatalog.controller;
 
-import com.ecom.productcatalog.model.Category;
+import com.ecom.productcatalog.entity.Category;
 import com.ecom.productcatalog.service.CategoryService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

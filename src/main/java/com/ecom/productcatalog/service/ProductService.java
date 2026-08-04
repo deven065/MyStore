@@ -1,6 +1,6 @@
 package com.ecom.productcatalog.service;
 
-import com.ecom.productcatalog.model.Product;
+import com.ecom.productcatalog.entity.Product;
 import com.ecom.productcatalog.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 

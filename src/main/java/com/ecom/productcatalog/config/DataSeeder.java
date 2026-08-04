@@ -1,7 +1,7 @@
 package com.ecom.productcatalog.config;
 
-import com.ecom.productcatalog.model.Category;
-import com.ecom.productcatalog.model.Product;
+import com.ecom.productcatalog.entity.Category;
+import com.ecom.productcatalog.entity.Product;
 import com.ecom.productcatalog.repository.CategoryRepository;
 import com.ecom.productcatalog.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
