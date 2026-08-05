@@ -34,6 +34,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 320)
     private String email;
 
+    //  Store the hash never the original password
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
@@ -45,7 +46,7 @@ public class User {
     private boolean enabled = true;
 
     @Column(nullable = false)
-    private boolean emailVerifies = false;
+    private boolean emailVerified = false;
 
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
@@ -53,13 +54,13 @@ public class User {
     @Column(nullable = false)
     private Instant updatedAt;
 
-    @PrePersist
+    @PrePersist //  runs just before the first insert
     void onCreate() {
         createdAt = Instant.now();
         updatedAt = createdAt;
     }
 
-    @PreUpdate
+    @PreUpdate  //  runs before an update
     void onUpdate() {
         updatedAt = Instant.now();
     }
