@@ -1,5 +1,7 @@
 package com.ecom.productcatalog.service;
 
+import com.ecom.productcatalog.dto.LoginRequest;
+import com.ecom.productcatalog.dto.LoginResponse;
 import com.ecom.productcatalog.dto.SignupRequest;
 import com.ecom.productcatalog.dto.UserResponse;
 import com.ecom.productcatalog.entity.Role;
@@ -57,5 +59,33 @@ public class AuthService {
         User savedUser = userRepository.save(user);
 
         return UserResponse.from(savedUser);
+    }
+
+    public LoginResponse login(LoginRequest request) {
+        String normalizedEmail = request.email()
+                .trim()
+                .toLowerCase(Locale.ROOT);
+
+        User user = userRepository.findByEmailIgnoreCase(normalizedEmail)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.UNAUTHORIZED,
+                                "Invalid email or password"
+                        )
+                );
+
+        if (!passwordEncoder.matches(
+                request.password(),
+                user.getPasswordHash()
+        )) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Invalid email or password"
+            );
+        }
+        return new LoginResponse(
+                "Login Successful",
+                UserResponse.from(user)
+        );
     }
 }

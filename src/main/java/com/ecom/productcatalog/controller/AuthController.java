@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
+
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
@@ -19,7 +20,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public UserResponse signip(
+    public UserResponse signup(
             @Valid
             @RequestBody
             SignupRequest request
@@ -28,7 +29,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@Valid @RequestBody LoginRequest request) {
+    public LoginResponse login(
+            @Valid
+            @RequestBody
+            LoginRequest request
+    ) {
         return authService.login(request);
     }
 }
