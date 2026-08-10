@@ -21,10 +21,12 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     @Transactional
@@ -62,6 +64,9 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest request) {
+        // Normalize the email so that spaces and uppercase letters
+        // do not cause login problems.
+
         String normalizedEmail = request.email()
                 .trim()
                 .toLowerCase(Locale.ROOT);
@@ -83,8 +88,15 @@ public class AuthService {
                     "Invalid email or password"
             );
         }
+
+        //  The email and password are correct.
+        //  Now create a JWT token for this user.
+
+        String token = jwtService.generateToken(user.getEmail());
+
+        //  Return the JWT token and user information to the client.
         return new LoginResponse(
-                "Login Successful",
+                token,
                 UserResponse.from(user)
         );
     }
