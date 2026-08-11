@@ -94,4 +94,33 @@ public class JwtService {
                  */
                 .compact();
     }
+
+    /*
+    * Extract the email from the JWT.
+    * Earlier, while creating the token, I used:
+    * .subject(email)
+    * Therefore the enail is stored inside the JWT's "sub"
+    * (subject) claim.
+     */
+    public String extractEmail(String token) {
+        return Jwts.parser()
+                .verifyWith(getSigningKey())    //Tells Jwts which secret key should be used to verify the token's signature.
+                .build()    //  Build the JWT parser
+                .parseSignedClaims(token)   //  Parse the signed JWT
+                .getPayload()   //  Get the claims stored inside the JWT
+                .getSubject();  //  Get the subject, this is the user's email
+    }
+
+    /*
+    * Create the Secret key used by both:
+    * 1. JWT generation
+    * 2. JWT verification
+    *
+    * It is important that both operations use the same secret key.
+     */
+
+    private SecretKey getSigningKey() {
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);   //  Convert the secret String into bytes.
+        return Keys.hmacShaKeyFor(keyBytes);    //  Convert those bytes into a cryptogrpahic SecretKey.
+    }
 }

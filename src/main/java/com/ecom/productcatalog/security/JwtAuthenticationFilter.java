@@ -40,6 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     * The filter gets a chance to inspect the request before the request reaches our controller.
      */
 
+    @Override
     protected void doFilterInternal(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -56,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         * Check whether the authorization header exists and whether it starts with "Bearer".
         * "Bearer" is the standard formar used when sending a JWT through the Authorization header.
          */
-        if (authHeader == null || authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             /*
             * There is no JWT in the request
             * We dont immediately reject the request here.
@@ -69,7 +70,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //  Remove "Bearer " from the beginning of the header.
         String token = authHeader.substring(7);
 
-        String email = jwtService.extractEmail(token);
+         String email = null;
+         try {
+             email = jwtService.extractEmail(token);
+         } catch (Exception exception) {
+
+         }
 
         /*
         * If we successfully extracted an email and
