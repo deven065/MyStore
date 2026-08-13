@@ -1,5 +1,6 @@
 package com.ecom.productcatalog.security;
 
+import com.ecom.productcatalog.repository.UserRepository;
 import com.ecom.productcatalog.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,19 +17,20 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     /*
-    *   JWT is responsible for JWT related operations
-    *   The filter will use it to:
-    *   1. Extract the email from the Jwt
-    *   2. Validate the Jwt
+    *   JWT is responsible for JWT related operations such as extracting the user's email from the token
      */
     private final JwtService jwtService;
+
+    //  UserRepopsitory communicates with the database so we can find the user and their role
+    private final UserRepository userRepository;
 
     /*
     *   Constructor Injection
     * Spring automatically gives this filter the JwtService object.
      */
-    public JwtAuthenticationFilter(JwtService jwtService) {
+    public JwtAuthenticationFilter(JwtService jwtService, UserRepository userRepository) {
         this.jwtService = jwtService;
+        this.userRepository = userRepository;
     }
 
     /*
